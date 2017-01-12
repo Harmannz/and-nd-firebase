@@ -15,6 +15,7 @@
  */
 package com.google.firebase.udacity.friendlychat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -184,6 +186,23 @@ public class MainActivity extends AppCompatActivity {
         detachDatabaseReadListener();
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // request code allows us to identify where the request comes from, so we check if it equals rc_sign_in
+        if(requestCode == RC_SIGN_IN) {
+             if (resultCode == RESULT_OK){
+                 // sign-in succeeded, set up the ui
+                 Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
+             } else {
+                 // Sign in was canceled by the user, finish the activity (quit app)
+                 Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
+                 finish();
+             }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
