@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //this method is called before onresume so we can see what returns to exit app before all the authstatelistener
         super.onActivityResult(requestCode, resultCode, data);
         // request code allows us to identify where the request comes from, so we check if it equals rc_sign_in
         if(requestCode == RC_SIGN_IN) {
@@ -227,7 +228,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.sign_out_menu:
+                AuthUI.getInstance().signOut(this);
+                return true;
+            default:
+                return false;
+        }
     }
 
     private void attachDatabaseReadListener() {
